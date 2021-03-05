@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{% for upload in object_list %}
+<div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-5">
+    <figure class="effect-ming tm-video-item">
+        <img src="/media/{{ upload.image }}"  alt="Image" class="img-fluid">
+        <figcaption class="d-flex align-items-center justify-content-center">
+            <h2>{{ upload.title }}</h2>
+            <a href="{% url 'detail' upload.slug %}">{{upload.title}}</a>
+        </figcaption>                    
+    </figure>
+    <div class="d-flex justify-content-between">
+        <span class="tm-text">By <strong>{{ upload.author.username }}</strong></span>
+        {% for tag in upload.tags.all %}
+            <span><a href="{% url 'tagged' tag.slug %}">#{{ tag }}</a></span>
+        {% endfor %}
+    </div>
+</div>
+{% endfor %}
+{% endblock content %}      

@@ -1,0 +1,214 @@
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+{% block title %}Profile | {{ user.username }} {% endblock %}
+    </head>
+    <body class="bg-light">
+        <div class="container" style="max-width:1000">
+            <div class="card shadow-sm" style="margin-top: 20px">
+                <div class="card-header">
+                    <h6 style="margin-bottom: 0; margin-top: 7; display: inline-block">
+                        <a href="/" class="text-dark">BLOGLIT</a>
+                    </h6>
+                    <span style="float: right">
+                        <span class="csqa-nav">
+                            <form class=" form-signin d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0" action="{% url 'searchposts' %}" method="GET" value="{{request.GET.q}}"> 
+                                <input type="text" class="form-control" name="q" value="{{request.GET.q}}" placeholder="Search posts"/> 
+                                <input class="btn btn-primary btn-sm mt-1 mb-1" type="submit" name="submit" value="Search"/>
+                            </form>
+                            {% if user.is_authenticated %}
+                            <a href="/mypost/" class="text-dark">My Posts</a> |                        
+                            <a href="/post/" class="text-dark" style="display: inline-block">
+                                New Post
+                            </a>
+                            {% endif %}
+                        </span>
+                    </span>
+                </div>
+                <div class="pb-2 pt-4 pr-4 pl-4">
+
+					<div class="container-fluid">
+						<div class="cover" style="background:url('https://s-media-cache-ak0.pinimg.com/originals/84/21/d1/8421d1b53991d565a0e07d0d88cc83f2.jpg') no-repeat;">
+						</div>
+						<div class="row loggedin_user">
+						    <div class="col-sm-3 col-md-3">
+						      <div class="user_profile">
+						        <img src="https://scontent-sin6-2.xx.fbcdn.net/v/t1.0-1/p160x160/19665692_840999699399230_1883861812456879924_n.jpg?oh=03ae7453a7a04d849eee5568cf97f25e&oe=5A0C8763">
+						        <div class="user_name" title="{{ user.username }}">
+						          {{ user.username }} 
+						        </div>
+						      </div>
+						    </div>
+						</div>
+						<div class="row user_details">
+						    <table>
+						        <tr>
+						          <td>Username: {{ user.username }}<td>
+						        </tr>
+						        <tr>
+									<td>
+										Full Name: {{ user.first_name }} {{ user.last_name }}<br>
+									</td>
+						        </tr>
+						        <tr>
+									<td>
+										Email: {{ user.email }}<br>
+									</td>
+						        </tr>
+						        <!-- <tr>
+						          <td>Boi:{{ user.bio }}<br><td>
+						        </tr> -->
+						    </table>
+						</div>
+					</div>
+
+                </div>
+            </div>
+        </div>
+        <div class="container text-right" style="max-width:1000; padding-right:21; padding-top:2; font-size:14; color: #6c757d; margin-bottom: 7px;">
+                <a href="/" class="text-secondary">Home</a> | 
+            {% if user.is_authenticated %}
+                <a href="/logout" class="text-secondary">Log out ({{user.username}})</a> | 
+            {% else %}
+                <a href="/login" class="text-secondary">Sign up / log in</a> | 
+            {% endif %}
+                <a href="https://github.com/akanmu01/blog" class="text-secondary" target="_blank">Source code</a> | 
+            <a href="/about" class="text-secondary">About</a>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    </body>
+</html>
+
+{% block style %}
+	<style type="text/css">
+	* { box-sizing:border-box; } 
+	.container-fluid { margin:0px; padding:0px; }
+	.cover {
+	  height:210px;
+	  width:100%;
+	  overflow:hidden !important;
+	  position:relative;
+	  background-size:cover !important;
+	  background-position:top center !important;
+	  border-bottom:2px solid #ff9800;
+	/*   filter:blur(2px); */
+	}
+	.edit_cover_btn {
+	  padding:10px 22px 10px 15px;
+	  font-size:16px;
+	  position:absolute;
+	  top:50%;
+	  right: -45px;
+	  transition:all 0.3s ease;
+	  background:#ff9800;
+	  border:0;
+	  color:#fff;
+	  font-size: 20px;
+	  border-radius: 7px;
+	}
+	.cover:hover .edit_cover_btn {
+		right: -10px;
+	}
+
+	@media only screen and (max-width:700px) {
+		.edit_cover_btn { display: block; top:25%; opacity:0.85; filter: alpha(opacity=85); }
+	}
+	.loggedin_user {
+	  width:90%;
+	  margin:0 auto;
+	  margin-top:-122px;
+	  position:relative;
+	}
+	.user_profile {
+	  width:170px;
+	  height:170px;
+	  overflow:hidden;
+	  border-radius:50%;
+	  border:2px solid #ff9800;
+	  float:left;
+	  position:relative;
+	  cursor:pointer !important;
+	}
+	.user_profile img {
+	  width:100%;
+	  float:left !important;
+	}
+	.user_name {
+	  width:110%;
+	  color:#FFF;
+	  font-size:25px;
+	  text-align:center;
+	  position:absolute;
+	  bottom:-5px;
+	  background: #FF9800;
+	  padding:2px 15px 10px 30px;
+	  transform-origin:center;
+	  transform:rotateZ(-15deg);
+	  transition:all 0.35s ease-in;
+	}
+	.user_profile:hover .user_name { bottom:-50px; }
+	.user_options {
+	  margin-top:65px;
+	  text-align:center;
+	}
+	.user_menu {
+	  float:left;
+	  margin-left:40px;
+	  padding:0 5px;
+	  border-radius:20px;
+	  box-shadow:0.5px 0.5px 10px #444;
+	}
+	.user_menu li {
+	  list-style:none;
+	  cursor:pointer !important;
+	  padding:5px;
+	  height:30px;
+	  width:30px;
+	  float:left;
+	  margin:10px;
+	  color:#ff9800;
+	  font-size:20px;
+	  background:#fff;
+	  border-radius:10px;
+	}
+	.user_menu li:hover {
+	  background:#ff9800;
+	  color:#fff;
+	}
+	.user_details {
+	  width:80%;
+	  margin:0 auto;
+	  float:right;
+	  padding:20px;
+	}
+	.user_details table { width:50%;margin:0 auto;}
+	.user_details table td{
+	  padding:5px 10px;
+	  border-bottom:1px solid #eeefff;
+	}
+	@media only screen and (max-width:440px) {
+	  .loggedin_user { width:174px; }
+	  .user_profile { float:none;margin:0 auto; }  
+	  .user_options { float:none;width:170px; margin-top:30px;padding:0; }
+	  .user_menu { width:180px; margin:0 auto !important;padding-left:8%;box-shadow:0.5px 0.5px 1px #999; }
+	  .user_menu li:hover { background:#ff9800;color:#fff; }
+	}
+
+	@media only screen and (max-width:710px) {
+	  .user_details { margin:0 10%;float:left; }
+	  .user_details table { width:100%;margin:20px 0; }
+	}
+	.footer {
+	  width:100%;
+	  background:#ff9800;
+	  padding:10px;
+	  position:absolute;
+	  bottom:0;
+	  text-align:center;
+	  color:#333333;
+	}
+
+	</style>
